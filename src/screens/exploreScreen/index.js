@@ -7,7 +7,7 @@ function ProfileScreen() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text>profile</Text>
+      <Text>Explore</Text>
       <Button title="Navigate" onPress={() => navigation.navigate('Home')} />
     </View>
   );

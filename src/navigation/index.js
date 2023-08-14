@@ -5,6 +5,8 @@ import AuthNavigator from './authNavigator';
 import HomeNavigator from './homeNavigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import storage from '../services/storage';
+import constants from '../constants';
+import {lightTheme} from '../themes/theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +14,8 @@ function RootNavigator() {
   const [userLoggedIn, setUserLoggedIn] = useState();
 
   const token = storage.getString('user.token');
+  // const appTheme = scheme === 'dark' ? darkTheme : lightTheme;
+  const appTheme = lightTheme;
   console.log({token});
 
   const onChangeStorageValue = useCallback(async newValue => {
@@ -44,7 +48,9 @@ function RootNavigator() {
   }, [token]);
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer
+        ref={constants.navigation.navigationRef}
+        theme={appTheme}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {userLoggedIn ? (
             <Stack.Screen name="HomeNavigator" component={HomeNavigator} />
