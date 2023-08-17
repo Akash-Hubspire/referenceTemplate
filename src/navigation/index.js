@@ -41,7 +41,6 @@ function RootNavigator() {
   }, [onChangeStorageValue]);
 
   useEffect(() => {
-    console.log('token listener useeffect');
     if (token) {
       setUserLoggedIn(true);
     }

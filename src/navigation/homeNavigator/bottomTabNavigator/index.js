@@ -18,7 +18,7 @@ function BottomTabNavigator() {
       tabBar={TabComp}
       screenOptions={{
         lazy: true,
-        // headerShown: false,
+        headerShown: false,
         // header: //give custom header here
       }}>
       <Tab.Screen name="Home" component={HomeScreen} />
