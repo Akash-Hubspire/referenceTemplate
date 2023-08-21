@@ -1,11 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint no-console: 0 */
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   StyleSheet,
   Image,
@@ -17,9 +12,9 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Camera, useCameraDevices } from 'react-native-vision-camera';
-import { useTheme } from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import {useTheme} from '@react-navigation/native';
 
 const CLOSE_ICON = require('../../assets/icons/camera/closeRed.png');
 const GALLERY_ICON = require('../../assets/icons/camera/gallery.png');
@@ -35,7 +30,7 @@ const CameraGallery = ({
   // journeyDetail,
 }) => {
   const styles = useStyles();
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const cameraRef = useRef();
   const [isCameraInitialized, setIsCameraInitialized] = useState(false);
   const [cameraPosition, setCameraPosition] = useState('back');
@@ -61,7 +56,7 @@ const CameraGallery = ({
 
   // check if APP is foreground
   useEffect(() => {
-    const onChange = (state) => {
+    const onChange = state => {
       setIsForeground(state === 'active');
     };
     const listener = AppState.addEventListener('change', onChange);
@@ -69,17 +64,17 @@ const CameraGallery = ({
   }, []);
 
   const onPressFlipCamera = useCallback(() => {
-    setCameraPosition((p) => (p === 'back' ? 'front' : 'back'));
+    setCameraPosition(p => (p === 'back' ? 'front' : 'back'));
   }, []);
   const onPressFlash = useCallback(() => {
-    setFlash((f) => (f === 'off' ? 'on' : 'off'));
+    setFlash(f => (f === 'off' ? 'on' : 'off'));
   }, []);
 
   const handlePressBack = () => {
     onPressBack(false);
   };
 
-  const onError = useCallback((error) => {
+  const onError = useCallback(error => {
     console.error('Camera error: ', error);
   }, []);
 
@@ -100,7 +95,9 @@ const CameraGallery = ({
 
   const takePhoto = async () => {
     try {
-      if (cameraRef.current == null) throw new Error('Camera ref is null!');
+      if (cameraRef.current == null) {
+        throw new Error('Camera ref is null!');
+      }
       const photo = await cameraRef.current.takePhoto(takePhotoOptions);
       const uri = `${Platform.OS === 'android' ? 'file://' : ''}${photo.path}`;
       const imageDetails = {
@@ -121,11 +118,11 @@ const CameraGallery = ({
         maxFiles: 5,
         compressImageQuality: 0.3,
       })
-        .then((images) => {
+        .then(images => {
           handleImage(images);
           onPressBack(false);
         })
-        .catch((e) => console.log('Failed to pick media', e));
+        .catch(e => console.log('Failed to pick media', e));
     } catch (error) {
       console.error('Failed to select photo from gallery!', error);
     }
@@ -136,9 +133,8 @@ const CameraGallery = ({
       transparent
       isVisible={enableCamera}
       animationOutTiming={100}
-      style={{ margin: 0 }}
-    >
-      <View style={{ height: '100%', width: '100%' }}>
+      style={{margin: 0}}>
+      <View style={{height: '100%', width: '100%'}}>
         <StatusBar
           barStyle="light-content"
           backgroundColor={colors.background}
@@ -149,8 +145,7 @@ const CameraGallery = ({
               onPress={handlePressBack}
               hitSlop={hitslop}
               accessibilityLabel="Close"
-              accessibilityHint="Press to close camera"
-            >
+              accessibilityHint="Press to close camera">
               <Image source={CLOSE_ICON} style={styles.closeIcon} />
             </TouchableOpacity>
             {supportsFlash ? (
@@ -158,8 +153,7 @@ const CameraGallery = ({
                 onPress={onPressFlash}
                 hitSlop={hitslop}
                 accessibilityLabel="Toggle flash"
-                accessibilityHint="Press to toggle flash"
-              >
+                accessibilityHint="Press to toggle flash">
                 <Image
                   source={flash === 'on' ? FLASH_ON_ICON : FLASH_OFF_ICON}
                   style={styles.flashIcon}
@@ -186,8 +180,7 @@ const CameraGallery = ({
                     style={styles.galleryButtonContainer}
                     accessibilityLabel="Gallery"
                     accessibilityHint="Press to open gallery"
-                    onPress={onPressGallery}
-                  >
+                    onPress={onPressGallery}>
                     <Image
                       source={GALLERY_ICON}
                       style={styles.galleryButtonImage}
@@ -207,8 +200,7 @@ const CameraGallery = ({
                       style={styles.flipcameraButtonContainer}
                       onPress={onPressFlipCamera}
                       accessibilityLabel="Flip camera"
-                      accessibilityHint="Press to flip camera"
-                    >
+                      accessibilityHint="Press to flip camera">
                       <Image
                         source={FLIP_CAMERA_ICON}
                         style={styles.flipcameraButtonImage}
@@ -235,7 +227,7 @@ const useStyles = () => {
   const insets = useSafeAreaInsets();
 
   return StyleSheet.create({
-    container: { flex: 1, zIndex: 20 },
+    container: {flex: 1, zIndex: 20},
     topContainer: {
       position: 'absolute',
       paddingHorizontal: horizontalSpacing,
@@ -245,8 +237,8 @@ const useStyles = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-    closeIcon: { width: 20, height: 20, tintColor: '#FFFFFF' },
-    flashIcon: { width: 25, height: 25, tintColor: '#FFFFFF' },
+    closeIcon: {width: 20, height: 20, tintColor: '#FFFFFF'},
+    flashIcon: {width: 25, height: 25, tintColor: '#FFFFFF'},
     cameraContainer: {
       flex: 1,
       backgroundColor: 'black',
